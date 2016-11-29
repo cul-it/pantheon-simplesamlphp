@@ -11,6 +11,7 @@ There are 3 files that differ depending on whether you're in production or non-p
 	config/authsources.php
 	metadata/shib13-idp-remote.php
 	metadata/saml20-idp-remote.php
+```
 
 1. Each of these files has a .test and .prod version. Rename the appropriate version to [filename].php to use it. 
 
