@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * The configuration of SimpleSAMLphp
- * 
+ *
  */
 
 if (!ini_get('session.save_handler')) {
@@ -30,7 +30,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'http://'. $host .'/simplesaml/',
+    'baseurlpath' => 'https://'. $host .'/simplesaml/',
     'certdir' => 'cert/',
     'loggingdir' => 'log/',
     'datadir' => 'data/',
@@ -576,11 +576,11 @@ $config = array(
      * Both Shibboleth and SAML 2.0
      */
     'authproc.sp' => array(
-        
+
         10 => array(
             'class' => 'core:AttributeMap', 'oid2name'
         ),
-        
+
 
         /*
          * Generate the 'group' attribute populated from other variables, including eduPersonAffiliation.
