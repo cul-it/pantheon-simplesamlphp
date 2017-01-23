@@ -16,7 +16,7 @@ How to use:
 (1)
 
 ```
-ln -s private/pantheon-simplesamlphp/www simplesaml
+ln -s ./private/pantheon-simplesamlphp/www simplesaml
 ```
 
 (2)
