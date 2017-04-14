@@ -12,6 +12,7 @@ How to use:
 4. Add some code to your settings.php file. (2)
 5. Push the changes to the remote Pantheon git repo.
 6. Test at http://[sitename]/simplesaml/module.php/core/authenticate.php
+7. You'll need to install simplesamlphp_auth (and externalauth for Drupal 8) to get the Federated Login link.
 
 (1)
 
