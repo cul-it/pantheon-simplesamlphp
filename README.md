@@ -31,6 +31,16 @@ if (defined('PANTHEON_ENVIRONMENT')) {
     $conf['simplesamlphp_auth_installdir'] = '/srv/bindings/'. $ps['conf']['pantheon_binding'] . $config_version;
   }
 }
+
+// drupal 8 version
+if (defined('PANTHEON_ENVIRONMENT')) {
+  if (!empty($_SERVER['PRESSFLOW_SETTINGS'])) {
+    $config_version = '/code/private/pantheon-simplesamlphp';
+    $ps = json_decode($_SERVER['PRESSFLOW_SETTINGS'], TRUE);
+    $settings['simplesamlphp_dir'] = '/srv/bindings/'. $ps['conf']['pantheon_binding'] . $config_version;
+  }
+}
+
 ?>
 ```
 
