@@ -7,7 +7,7 @@ How to use:
 ===========
 
 1. If it's not already there, create a /private directory in your Drupal site root directory (same place as Drupal's index.php).
-2. Download the .zip version of this repo and extract it into /private/pantheon-simplesamlphp. This readme file should end up at /private/simplesamlphp/README.md
+2. Download the .zip version of this repo and extract it into /private/pantheon-simplesamlphp. This readme file should end up at /private/pantheon-simplesamlphp/README.md
 3. Create a symlink in your Drupal site root directory called simplesaml that leads to the www directory inside /private/pantheon-simplesamlphp. (1)
 4. Add some code to your settings.php file. (2)
 5. Push the changes to the remote Pantheon git repo.
