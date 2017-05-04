@@ -24,6 +24,8 @@ ln -s ./private/pantheon-simplesamlphp/www simplesaml
 
 ```
 <?php
+
+// drupal 7 version
 if (defined('PANTHEON_ENVIRONMENT')) {
   if (!empty($_SERVER['PRESSFLOW_SETTINGS'])) {
     $config_version = '/code/private/pantheon-simplesamlphp';
