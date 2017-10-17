@@ -10,9 +10,10 @@ How to use:
 2. Download the .zip version of this repo and extract it into /private/pantheon-simplesamlphp. This readme file should end up at /private/pantheon-simplesamlphp/README.md
 3. Create a symlink in your Drupal site root directory called simplesaml that leads to the www directory inside /private/pantheon-simplesamlphp. (1)
 4. Add some code to your settings.php file. (2)
-5. Push the changes to the remote Pantheon git repo.
-6. Test at http://[sitename]/simplesaml/module.php/core/authenticate.php
-7. You'll need to install simplesamlphp_auth (and externalauth for Drupal 8) to get the Federated Login link.
+5. You'll need to download and install simplesamlphp_auth (and externalauth for Drupal 8) to get the Federated Login link.
+6. Push the changes to the remote Pantheon git repo.
+7. Test at http://[sitename]/simplesaml/module.php/core/authenticate.php
+
 
 (1)
 
