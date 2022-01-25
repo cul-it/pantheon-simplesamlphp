@@ -3,8 +3,7 @@
 /**
  * Class representing a SAML 2 assertion.
  *
- * @package simpleSAMLphp
- * @version $Id$
+ * @package SimpleSAMLphp
  */
 class SAML2_Assertion implements SAML2_SignedElement
 {
@@ -200,6 +199,11 @@ class SAML2_Assertion implements SAML2_SignedElement
     private $SubjectConfirmation;
 
     /**
+     * @var bool
+     */
+    protected $wasSignedAtConstruction = FALSE;
+
+    /**
      * Constructor for SAML 2 assertions.
      *
      * @param DOMElement|NULL $xml The input assertion.
@@ -208,9 +212,9 @@ class SAML2_Assertion implements SAML2_SignedElement
     public function __construct(DOMElement $xml = NULL)
     {
         $this->id = SAML2_Utils::getContainer()->generateId();
-        $this->issueInstant = time();
+        $this->issueInstant = SAML2_Utilities_Temporal::getTime();
         $this->issuer = '';
-        $this->authnInstant = time();
+        $this->authnInstant = SAML2_Utilities_Temporal::getTime();
         $this->attributes = array();
         $this->nameFormat = SAML2_Const::NAMEFORMAT_UNSPECIFIED;
         $this->certificates = array();
@@ -516,6 +520,7 @@ class SAML2_Assertion implements SAML2_SignedElement
         /* Validate the signature element of the message. */
         $sig = SAML2_Utils::validateElement($xml);
         if ($sig !== FALSE) {
+            $this->wasSignedAtConstruction = TRUE;
             $this->certificates = $sig['Certificates'];
             $this->signatureData = $sig;
         }
@@ -1202,6 +1207,14 @@ class SAML2_Assertion implements SAML2_SignedElement
     public function getCertificates()
     {
         return $this->certificates;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getWasSignedAtConstruction()
+    {
+        return $this->wasSignedAtConstruction;
     }
 
     /**
