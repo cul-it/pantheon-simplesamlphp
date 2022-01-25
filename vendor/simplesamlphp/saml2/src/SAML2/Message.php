@@ -6,11 +6,19 @@
  * Implements what is common between the samlp:RequestAbstractType and
  * samlp:StatusResponseType element types.
  *
- * @package simpleSAMLphp
- * @version $Id$
+ * @package SimpleSAMLphp
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class SAML2_Message implements SAML2_SignedElement
 {
+    /**
+     * Request extensions.
+     *
+     * @var array
+     */
+    protected $extensions;
+
     /**
      * The name of the root element of the DOM tree for the message.
      *
@@ -82,6 +90,11 @@ abstract class SAML2_Message implements SAML2_SignedElement
     private $signatureKey;
 
     /**
+     * @var bool
+     */
+    protected $messageContainedSignatureUponConstruction = FALSE;
+
+    /**
      * List of certificates that should be included in the message.
      *
      * @var array
@@ -115,7 +128,7 @@ abstract class SAML2_Message implements SAML2_SignedElement
         $this->tagName = $tagName;
 
         $this->id = SAML2_Utils::getContainer()->generateId();
-        $this->issueInstant = time();
+        $this->issueInstant = SAML2_Utilities_Temporal::getTime();
         $this->certificates = array();
         $this->validators = array();
 
@@ -153,6 +166,7 @@ abstract class SAML2_Message implements SAML2_SignedElement
             $sig = SAML2_Utils::validateElement($xml);
 
             if ($sig !== FALSE) {
+                $this->messageContainedSignatureUponConstruction = TRUE;
                 $this->certificates = $sig['Certificates'];
                 $this->validators[] = array(
                     'Function' => array('SAML2_Utils', 'validateSignature'),
@@ -164,6 +178,7 @@ abstract class SAML2_Message implements SAML2_SignedElement
             /* Ignore signature validation errors. */
         }
 
+        $this->extensions = SAML2_XML_samlp_Extensions::getList($xml);
     }
 
     /**
@@ -339,6 +354,16 @@ abstract class SAML2_Message implements SAML2_SignedElement
     }
 
     /**
+     * Query whether or not the message contained a signature at the root level when the object was constructed.
+     *
+     * @return bool
+     */
+    public function isMessageConstructedWithSignature()
+    {
+        return $this->messageContainedSignatureUponConstruction;
+    }
+
+    /**
      * Retrieve the RelayState associated with this message.
      *
      * @return string|NULL The RelayState, or NULL if no RelayState is given.
@@ -391,6 +416,10 @@ abstract class SAML2_Message implements SAML2_SignedElement
 
         if ($this->issuer !== NULL) {
             SAML2_Utils::addString($root, SAML2_Const::NS_SAML, 'saml:Issuer', $this->issuer);
+        }
+
+        if (!empty($this->extensions)) {
+            SAML2_XML_samlp_Extensions::addList($root, $this->extensions);
         }
 
         return $root;
@@ -515,6 +544,28 @@ abstract class SAML2_Message implements SAML2_SignedElement
                 throw new Exception('Unknown SAML message: ' . var_export($xml->localName, TRUE));
         }
 
+    }
+
+    /**
+     * Retrieve the Extensions.
+     *
+     * @return SAML2_XML_samlp_Extensions.
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+
+    /**
+     * Set the Extensions.
+     *
+     * @param array|NULL $extensions The Extensions.
+     */
+    public function setExtensions($extensions)
+    {
+        assert('is_array($extensions) || is_null($extensions)');
+
+        $this->extensions = $extensions;
     }
 
 }
